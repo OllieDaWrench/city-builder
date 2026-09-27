@@ -22,3 +22,4 @@ yarn-error.log*
 
 # saves exported from the game
 city-builder-*.json
+test/*.png

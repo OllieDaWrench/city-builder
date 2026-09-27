@@ -1,4 +1,4 @@
-/* ================= City Builder — game UI styles ================= */
+/* ================= City Builder v2 — game UI styles ================= */
 
 * { box-sizing: border-box; }
 
@@ -12,25 +12,13 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-#cb-root {
-  position: fixed;
-  inset: 0;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-canvas.cb-canvas {
-  position: absolute;
-  inset: 0;
-  display: block;
-  touch-action: none;
-  cursor: grab;
-}
+#cb-root { position: fixed; inset: 0; user-select: none; -webkit-user-select: none; }
 
 .cb-ui { position: absolute; inset: 0; pointer-events: none; }
-.cb-ui button { pointer-events: auto; font-family: inherit; }
+.cb-ui button, .cb-ui input { pointer-events: auto; font-family: inherit; }
+.cb-ui button { cursor: pointer; }
 
-/* ------------------------------ top HUD ------------------------------ */
+/* ------------------------------- top HUD ------------------------------ */
 .cb-hud {
   position: absolute;
   top: 10px;
@@ -38,109 +26,147 @@ canvas.cb-canvas {
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   flex-wrap: wrap;
   justify-content: center;
-  max-width: min(94vw, 860px);
+  max-width: min(96vw, 980px);
   background: rgba(13, 19, 32, 0.85);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 14px;
-  padding: 8px 16px;
+  padding: 7px 14px;
   color: #dbe5f1;
   font-size: 13.5px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
   pointer-events: auto;
 }
+#cb-cityname {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #9fd0ff;
+  font-weight: 700;
+  font-size: 13.5px;
+  padding: 3px 8px;
+  width: 130px;
+  text-align: center;
+  outline: none;
+}
+#cb-cityname:hover, #cb-cityname:focus { border-color: rgba(159, 208, 255, 0.4); background: rgba(255,255,255,0.05); }
 .cb-stat { white-space: nowrap; }
 .cb-stat b { color: #ffd97a; font-weight: 600; }
-.cb-demand { display: flex; align-items: center; gap: 5px; }
+.cb-demand { display: flex; align-items: center; gap: 4px; }
 .cb-demand i { font-style: normal; font-size: 11px; font-weight: 700; color: #9fb0c5; }
-.cb-dbar {
-  width: 42px; height: 8px;
-  background: #243044;
-  border-radius: 4px;
-  overflow: hidden;
-}
+.cb-dbar { width: 34px; height: 8px; background: #243044; border-radius: 4px; overflow: hidden; }
 .cb-dfill { display: block; height: 100%; width: 0%; border-radius: 4px; transition: width 0.5s ease; }
 .cb-speed { display: flex; gap: 3px; }
-.cb-speed button, .cb-side button {
+.cb-speed button {
   background: transparent;
   border: 1px solid transparent;
   border-radius: 9px;
-  cursor: pointer;
   font-size: 14px;
   padding: 3px 7px;
   line-height: 1;
-  transition: background 0.15s;
 }
-.cb-speed button:hover, .cb-side button:hover { background: rgba(255, 255, 255, 0.09); }
+.cb-speed button:hover { background: rgba(255, 255, 255, 0.09); }
 .cb-speed button.active { background: rgba(90, 160, 255, 0.25); border-color: #5aa0ff; }
-.cb-rank { color: #9fd0ff; font-size: 12px; letter-spacing: 0.4px; }
 
-/* ---------------------------- side buttons ---------------------------- */
-.cb-side {
+/* --------------------------- connection warn -------------------------- */
+.cb-connwarn {
   position: absolute;
-  top: 74px;
-  right: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  top: 68px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(70, 20, 20, 0.92);
+  border: 1px solid rgba(255, 90, 90, 0.55);
+  color: #ffd6d6;
+  font-size: 13px;
+  padding: 7px 16px;
+  border-radius: 11px;
+  pointer-events: none;
+  animation: cb-pulse 1.6s infinite;
 }
+.cb-connwarn.hidden { display: none; }
+@keyframes cb-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.55; } }
+
+/* ----------------------------- side buttons --------------------------- */
+.cb-side { position: absolute; top: 74px; right: 12px; display: flex; flex-direction: column; gap: 8px; }
 .cb-side-group {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  display: flex; flex-direction: column; gap: 2px;
   background: rgba(13, 19, 32, 0.85);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 12px;
   padding: 5px;
 }
-.cb-side button { font-size: 17px; padding: 6px 8px; text-align: center; }
+.cb-side button {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 16px;
+  padding: 5px 7px;
+  line-height: 1;
+  text-align: center;
+}
+.cb-side button:hover { background: rgba(255, 255, 255, 0.09); }
 .cb-side button.active { background: rgba(90, 160, 255, 0.25); border-color: #5aa0ff; }
 
-/* ------------------------------ toolbar ------------------------------- */
-.cb-toolbar {
+/* ------------------------------ bottom dock --------------------------- */
+.cb-dock {
   position: absolute;
-  bottom: 14px;
+  bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  max-width: 97vw;
+}
+.cb-cats, .cb-subtools {
   display: flex;
   gap: 4px;
   flex-wrap: wrap;
   justify-content: center;
-  max-width: 96vw;
   background: rgba(13, 19, 32, 0.88);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 16px;
-  padding: 7px;
+  border-radius: 14px;
+  padding: 6px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  pointer-events: auto;
 }
-.cb-tool {
-  width: 62px;
+.cb-cat {
+  width: 68px;
   padding: 6px 2px 5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1px;
+  display: flex; flex-direction: column; align-items: center; gap: 1px;
   background: transparent;
   border: 1px solid transparent;
-  border-radius: 12px;
+  border-radius: 11px;
   color: #cdd7e5;
-  cursor: pointer;
-  transition: background 0.15s;
+}
+.cb-cat:hover { background: rgba(255, 255, 255, 0.07); }
+.cb-cat.active { background: rgba(90, 160, 255, 0.18); border-color: #5aa0ff; color: #fff; }
+.cb-cat .ico { font-size: 18px; line-height: 1.15; }
+.cb-cat .lbl { font-size: 10.5px; font-weight: 600; }
+.cb-tool {
+  width: 66px;
+  padding: 6px 2px 5px;
+  display: flex; flex-direction: column; align-items: center; gap: 1px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  color: #cdd7e5;
 }
 .cb-tool:hover { background: rgba(255, 255, 255, 0.07); }
 .cb-tool.active { background: rgba(90, 160, 255, 0.18); border-color: #5aa0ff; color: #fff; }
-.cb-tool .ico { font-size: 19px; line-height: 1.15; }
-.cb-tool .lbl { font-size: 10.5px; font-weight: 600; }
+.cb-tool .ico { font-size: 18px; line-height: 1.15; }
+.cb-tool .lbl { font-size: 10px; font-weight: 600; white-space: nowrap; }
 .cb-tool .cost { font-size: 9.5px; color: #8fa1b8; }
 
 .cb-hint {
   position: absolute;
-  bottom: 96px;
+  bottom: 178px;
   left: 50%;
   transform: translateX(-50%);
   max-width: 92vw;
@@ -153,6 +179,7 @@ canvas.cb-canvas {
   border: 1px solid rgba(255, 255, 255, 0.07);
   pointer-events: none;
 }
+.cb-hint.hidden { display: none; }
 
 /* ------------------------------ tooltip ------------------------------- */
 .cb-tooltip {
@@ -166,16 +193,38 @@ canvas.cb-canvas {
   padding: 8px 11px;
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.11);
-  max-width: 250px;
+  max-width: 260px;
   z-index: 20;
-  transition: transform 0.04s linear;
 }
 .cb-tooltip.hidden { display: none; }
+
+/* ----------------------------- info card ------------------------------ */
+.cb-info {
+  position: absolute;
+  left: 12px;
+  bottom: 130px;
+  width: 240px;
+  background: rgba(13, 19, 32, 0.92);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 14px;
+  padding: 12px 14px;
+  color: #e8eef7;
+  font-size: 12.5px;
+  line-height: 1.5;
+  pointer-events: auto;
+  z-index: 15;
+}
+.cb-info.hidden { display: none; }
+.cb-info h3 { margin: 0 0 6px; font-size: 14px; padding-right: 20px; }
+.cb-info p { margin: 4px 0; display: flex; align-items: center; gap: 8px; justify-content: space-between; }
+.cb-ibar { flex: 1; height: 7px; background: #243044; border-radius: 4px; overflow: hidden; }
+.cb-ibar span { display: block; height: 100%; background: linear-gradient(90deg, #5aa0ff, #7ce38b); border-radius: 4px; }
 
 /* ------------------------------- toasts ------------------------------- */
 .cb-toasts {
   position: absolute;
-  top: 66px;
+  top: 100px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -217,7 +266,7 @@ canvas.cb-canvas {
 .cb-backdrop.hidden { display: none; }
 .cb-modal {
   position: relative;
-  width: min(540px, 92vw);
+  width: min(560px, 92vw);
   max-height: 82vh;
   overflow: auto;
   background: #131a29;
@@ -241,7 +290,6 @@ canvas.cb-canvas {
   border: none;
   color: #9fb0c5;
   font-size: 15px;
-  cursor: pointer;
   padding: 4px 7px;
   border-radius: 8px;
 }
@@ -271,19 +319,20 @@ canvas.cb-canvas {
   padding: 10px 18px;
   font-size: 14px;
   font-weight: 600;
-  cursor: pointer;
-  transition: filter 0.15s;
 }
 .cb-btn:hover { filter: brightness(1.12); }
 .cb-btn.danger { background: linear-gradient(180deg, #ef6a5a, #d84f3f); }
 
 /* ------------------------------ responsive ---------------------------- */
-@media (max-width: 640px) {
-  .cb-hud { gap: 8px; font-size: 12px; padding: 7px 10px; }
-  .cb-dbar { width: 26px; }
-  .cb-tool { width: 52px; }
-  .cb-tool .lbl { font-size: 9px; }
-  .cb-side { top: auto; bottom: 110px; right: 8px; }
-  .cb-side button { font-size: 14px; padding: 4px 6px; }
-  .cb-rank { display: none; }
+@media (max-width: 700px) {
+  .cb-hud { gap: 7px; font-size: 11.5px; padding: 6px 8px; }
+  #cb-cityname { width: 90px; font-size: 12px; }
+  .cb-dbar { width: 22px; }
+  .cb-cat { width: 54px; }
+  .cb-tool { width: 54px; }
+  .cb-cat .lbl, .cb-tool .lbl { font-size: 9px; }
+  .cb-side { top: auto; bottom: 140px; right: 6px; }
+  .cb-side button { font-size: 13px; padding: 4px 5px; }
+  .cb-connwarn { font-size: 11px; width: max-content; max-width: 94vw; }
+  .cb-info { display: none; }
 }

@@ -63,6 +63,9 @@ node browser-test.mjs     # puppeteer boot + interaction smoke test (needs Chrom
 
 Import the repo at [vercel.com/new](https://vercel.com/new) — it's a static-prerendered Next.js app, so defaults just work, no environment variables needed. Or `npx vercel` from the CLI.
 
+> **Site shows a Vercel login wall / SSO redirect?** That's **Deployment Protection**.
+> Fix: Vercel Dashboard → your project → **Settings → Deployment Protection** → set *Standard Protection* to **Disabled** → redeploy. Your live domain is shown under Project → **Domains**.
+
 ## 💾 Which storage system should you use?
 
 **Right now: the browser — already wired up.** Saves are ~60 KB JSON each; `localStorage` holds ~80 of them, costs nothing, and needs no backend.
